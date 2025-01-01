@@ -1,16 +1,13 @@
-[tool.poetry]
+[project]
 name = "mcp-server"
 version = "0.1.0"
-description = ""
-authors = ["techan <50950268+te-chan@users.noreply.github.com>"]
+description = "Add your description here"
 readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "backlog-client",
+    "mcp[cli]==1.2.0rc1",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-backlog-client = {path = "../backlog-client/src"}
-mcp = {version = "1.2.0rc1", extras = ["cli"]}
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv.sources]
+backlog-client = { path = "../backlog-client/src" }
