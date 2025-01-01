@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "backlog-scraper"
+version = "0.1.0"
+description = "Scraper for Backlog API documentation"
+authors = ["Techan"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.32.3"
+beautifulsoup4 = "^4.12.3"
+pyyaml = "^6.0.2"
+anthropic = "^0.42.0"
+markdown = "^3.7"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
