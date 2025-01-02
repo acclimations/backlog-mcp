@@ -46,6 +46,11 @@ def get_priority_map(*args) -> Dict[str, int]:
     items = api_instance.get_priorities()
     return {item.name: item.id for item in items}
 
+def get_project_map(*args) -> Dict[str, int]:
+    """プロジェクトのマッピングを生成"""
+    items = api_instance.get_projects()
+    return {item.name: item.id for item in items}
+
 # パラメータとマッパー関数のマッピング
 PARAMETER_MAPPINGS = {
     "issue_type_id": ParameterMapping(
@@ -57,7 +62,12 @@ PARAMETER_MAPPINGS = {
         mapper=get_priority_map,
         param_name="priority_name",
         description="優先度"
-    )
+    ),
+    "project_id": ParameterMapping(
+        mapper=get_project_map,
+        param_name="project__name",
+        description="プロジェクト名"
+    ),
 }
 
 # 各パラメータの値を事前に取得
