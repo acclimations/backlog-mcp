@@ -6421,7 +6421,7 @@ paths:
       description: 課題の一覧を取得します。
       operationId: getIssues
       parameters:
-      - name: projectId
+      - name: projectId[]
         in: query
         schema:
           type: array
@@ -6430,7 +6430,7 @@ paths:
         description: プロジェクトのID
         style: form
         explode: true
-      - name: issueTypeId
+      - name: issueTypeId[]
         in: query
         schema:
           type: array
@@ -6439,7 +6439,7 @@ paths:
         description: 種別のID
         style: form
         explode: true
-      - name: categoryId
+      - name: categoryId[]
         in: query
         schema:
           type: array
@@ -6448,7 +6448,7 @@ paths:
         description: カテゴリーのID
         style: form
         explode: true
-      - name: versionId
+      - name: versionId[]
         in: query
         schema:
           type: array
@@ -6457,7 +6457,7 @@ paths:
         description: 発生バージョンのID
         style: form
         explode: true
-      - name: milestoneId
+      - name: milestoneId[]
         in: query
         schema:
           type: array
@@ -6466,7 +6466,7 @@ paths:
         description: マイルストーンのID
         style: form
         explode: true
-      - name: statusId
+      - name: statusId[]
         in: query
         schema:
           type: array
@@ -6475,7 +6475,7 @@ paths:
         description: 状態のID
         style: form
         explode: true
-      - name: priorityId
+      - name: priorityId[]
         in: query
         schema:
           type: array
@@ -6484,7 +6484,7 @@ paths:
         description: 優先度のID
         style: form
         explode: true
-      - name: assigneeId
+      - name: assigneeId[]
         in: query
         schema:
           type: array
@@ -6493,7 +6493,7 @@ paths:
         description: 担当者のID
         style: form
         explode: true
-      - name: createdUserId
+      - name: createdUserId[]
         in: query
         schema:
           type: array
@@ -6502,7 +6502,7 @@ paths:
         description: 登録者のID
         style: form
         explode: true
-      - name: resolutionId
+      - name: resolutionId[]
         in: query
         schema:
           type: array

@@ -8,6 +8,7 @@ import os
 import backlog_client
 import inspect
 import logging
+import annot
 from dataclasses import dataclass
 
 from pydantic import Field, StrictBool
@@ -50,7 +51,7 @@ def get_project_map(*args) -> Dict[str, int]:
     """プロジェクトのマッピングを生成"""
     items = api_instance.get_projects()
     return {item.name: item.id for item in items}
-
+    
 # パラメータとマッパー関数のマッピング
 PARAMETER_MAPPINGS = {
     "issue_type_id": ParameterMapping(
@@ -106,13 +107,20 @@ def remove_underscore_args(func):
         if param_id in param_names:
             # IDパラメータを削除し、名前パラメータを追加
             new_params = [p for p in new_params if p.name != param_id]
+            default_type = str
+
+            # 対象のパラメータが配列かどうかを確認
+            param_type = sig.parameters[param_id].annotation
+            is_list = annot.is_finally_list_type(param_type)
+            if is_list:
+                default_type = List[str]
             
             # 新しいパラメータを追加
             new_params.append(inspect.Parameter(
                 name=mapping.param_name,
                 kind=inspect.Parameter.KEYWORD_ONLY,
                 default=inspect.Parameter.empty,
-                annotation=Annotated[str, Field(
+                annotation=Annotated[default_type, Field(
                     description=mapping.description,
                     enum=list(PARAMETER_VALUES[param_id].keys())
                 )]
@@ -133,7 +141,11 @@ def remove_underscore_args(func):
             name_param = mapping.param_name
             if name_param in kwargs:
                 name_value = kwargs[name_param]
-                kwargs[param_id] = PARAMETER_VALUES[param_id][name_value]
+                # 配列を受け取った場合は、各要素を変換
+                if isinstance(name_value, list):
+                    kwargs[param_id] = [PARAMETER_VALUES[param_id][v] for v in name_value]
+                else:
+                    kwargs[param_id] = PARAMETER_VALUES[param_id][name_value]
                 kwargs.pop(name_param, None)
         
         return func(*args, **kwargs)
