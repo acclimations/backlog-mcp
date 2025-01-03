@@ -8,8 +8,10 @@ from typing import Annotated
 from typing import Protocol
 
 import backlog_client
+import yaml
 
 from mcp.server.fastmcp import FastMCP
+from pydantic import BaseModel
 from pydantic import Field
 
 import annot
@@ -158,7 +160,17 @@ def remove_underscore_args(func):
                     kwargs[param_id] = PARAMETER_VALUES[param_id][name_value]
                 kwargs.pop(name_param, None)
 
-        return func(*args, **kwargs)
+        result = func(*args, **kwargs)
+
+        # 通常の戻り値の場合はそのまま返す
+        if issubclass(type(result), BaseModel):
+            return yaml.dump(result.model_dump(), allow_unicode=True)
+        
+        # リストかつ BaseModel のインスタンスの場合は、各要素を変換
+        if isinstance(result, list) and all(issubclass(type(r), BaseModel) for r in result):
+            return yaml.dump([r.model_dump() for r in result], allow_unicode=True)
+
+        return result
 
     # 新しいシグネチャを付与する
     wrapper.__signature__ = new_sig
