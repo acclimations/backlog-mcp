@@ -61,10 +61,10 @@ paths:
           required: true
           schema:
             type: integer
-          description: ウォッチのID
+          description: "ウォッチのID"
       responses:
         '200':
-          description: 成功時のレスポンス
+          description: "成功時のレスポンス"
           content:
             application/json:
               schema:
@@ -83,6 +83,8 @@ YAMLのみを出力してください。コードブロック（```）は使用�
 Yaml内でダブルクォーテーション（"）が含まれる場合はエスケープしてください。
 security回りの記述は不要です。
 スキーマを外側に定義する必要はありません。
+パラメータ名に`[]`を含む場合、それを削除しないでください。
+文字列の中に`:`が含まれる場合、文字列全体をダブルクォーテーションで囲んでください。
 """
 
     def load_metadata(self):

@@ -61,6 +61,10 @@ def extract_markdown_content(html_file):
 def process_all_files():
     docs_dir = Path('./backlog_docs')
     output_dir = Path('./docs')
+
+    # 出力ディレクトリが存在しない場合は作成
+    if not output_dir.exists():
+        output_dir.mkdir()
     
     for html_file in docs_dir.glob('*.html'):
         markdown_content = extract_markdown_content(str(html_file))

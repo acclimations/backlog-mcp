@@ -14,7 +14,7 @@ def main():
 
     # スクレイピングコマンド
     scrape_parser = subparsers.add_parser('scrape', help='BacklogのAPIドキュメントをスクレイピング')
-    scrape_parser.add_argument('--output', default='docs', help='出力先ディレクトリ（デフォルト: docs）')
+    scrape_parser.add_argument('--output', default='backlog_docs', help='出力先ディレクトリ（デフォルト: docs）')
 
     # Markdown to YAML変換コマンド
     convert_parser = subparsers.add_parser('convert', help='MarkdownをOpenAPI YAMLに変換')
@@ -24,9 +24,10 @@ def main():
     args = parser.parse_args()
 
     if args.command == 'scrape':
-        # スクレイピング実行
-        scraper = BacklogScraper()
-        scraper.scrape_all_pages(args.output)
+        base_url = "https://developer.nulab.com/ja/docs/backlog/"
+        
+        scraper = BacklogScraper(base_url, args.output)
+        scraper.run()
     elif args.command == 'convert':
         # ANTHROPIC_API_KEYを環境変数から取得
         api_key = os.getenv("ANTHROPIC_API_KEY")

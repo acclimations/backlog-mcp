@@ -4,7 +4,7 @@ APIのドキュメントをスクレイピングして、Markdown化＆OpenAPI S
 
 ```
 poetry run python main.py scrape
-poetry run python convert_to-markdown.py
+poetry run python convert_to_markdown.py
 poetry run python main.py convert
 poetry run python main.py merge-openapi
 ```
