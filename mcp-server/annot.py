@@ -11,7 +11,7 @@ from typing import get_args
 from typing import get_origin
 
 
-def unwrap_annotation(typ: Any) -> Any:
+def unwrap_annotation(typ: Any) -> Any:  # noqa: PLR0911
     """
     あらゆる型注釈 (typ) から、Annotated や Optional(= Union[None, T]) 等の
     “ラッパ”を再帰的に取り除き、最終的な型を再構築して返す。
@@ -40,7 +40,7 @@ def unwrap_annotation(typ: Any) -> Any:
         # Union[...] の中から NoneType を除去（Optional の除去）
         # NoneType は type(None) or types.NoneType (Pythonバージョンによって異なる)
         none_types = {type(None)}
-        if sys.version_info < (3, 10):
+        if sys.version_info < (3, 10):  # noqa: UP036
             # Python 3.9以下では types.NoneType が存在しないので、type(None) で判定
             none_types = {type(None)}
         else:
@@ -53,7 +53,7 @@ def unwrap_annotation(typ: Any) -> Any:
         if len(non_none_args) == 1:
             return non_none_args[0]
         # もし複数あれば Union[...] を再構築
-        return Union[tuple(non_none_args)]
+        return Union[tuple(non_none_args)]  # noqa: UP007
 
     # ----- 3) ジェネリック (List, Dict, Tuple, Callable など) の処理 -----
     if origin is not None:
@@ -74,7 +74,7 @@ def unwrap_annotation(typ: Any) -> Any:
             # Callable[[arg1, arg2, ...], ret]
             # ※ get_args(Callable[[...], ret]) は ([arg1, arg2, ...], ret) になる
             if len(new_args) == 2 and isinstance(new_args[0], tuple):
-                return Callable[new_args[0], new_args[1]]
+                return Callable[new_args[0], new_args[1]] # type: ignore
             return Callable[..., Any]
         # 上記以外のジェネリック型 (Set, FrozenSet, Type, etc.) にも対応したい場合は同様に分岐を足す
 
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     # -> typing.List[int]
 
     # 2) Union[None, int, str] -> Union[int, str]
-    Example2 = Union[None, int, str]
+    Example2 = Union[None, int, str]  # noqa: UP007
     print(unwrap_annotation(Example2))
     # -> typing.Union[int, str]
 
