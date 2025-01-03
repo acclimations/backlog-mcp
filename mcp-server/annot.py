@@ -1,16 +1,14 @@
 import sys
-import types
-from typing import (
-    Any,
-    Annotated,
-    Union,
-    get_origin,
-    get_args,
-    List,
-    Dict,
-    Tuple,
-    Callable,
-)
+
+from typing import Annotated
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Tuple
+from typing import Union
+from typing import get_args
+from typing import get_origin
 
 
 def unwrap_annotation(typ: Any) -> Any:
@@ -77,8 +75,7 @@ def unwrap_annotation(typ: Any) -> Any:
             # ※ get_args(Callable[[...], ret]) は ([arg1, arg2, ...], ret) になる
             if len(new_args) == 2 and isinstance(new_args[0], tuple):
                 return Callable[new_args[0], new_args[1]]
-            else:
-                return Callable[..., Any]
+            return Callable[..., Any]
         # 上記以外のジェネリック型 (Set, FrozenSet, Type, etc.) にも対応したい場合は同様に分岐を足す
 
         # もしここに来たら何か独自のジェネリック (例: "MyGeneric[T]" など)
@@ -103,11 +100,10 @@ def is_finally_list_type(typ) -> bool:
 # --- 動作確認例 ---
 
 if __name__ == "__main__":
-    from typing import Optional
 
     # 1) Annotated[Optional[List[Annotated[int, ...]]], ...]
     #    -> List[int]
-    Example1 = Annotated[Optional[List[Annotated[int, ...]]], "some meta"]
+    Example1 = Annotated[List[Annotated[int, ...]] | None, "some meta"]
     print(unwrap_annotation(Example1), is_finally_list_type(Example1))
     # -> typing.List[int]
 
