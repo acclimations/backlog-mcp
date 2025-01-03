@@ -1,5 +1,7 @@
 # Backlog MCP (Model Context Protocol) Integration
 
+![alt text](docs/image.png)
+
 このプロジェクトは、BacklogのAPIをModel Context Protocol (MCP)を通じて利用可能にするための統合システムです。これにより、AIアシスタントがBacklogの機能（課題の作成、プロジェクト管理など）を直接操作できるようになります。
 
 ## プロジェクト構成
